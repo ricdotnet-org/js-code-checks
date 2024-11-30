@@ -27,11 +27,13 @@ runs:
   steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-        # with:
+        with:
+          node-version: ${{ inputs.node-version }}
         #   token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Prepare yarn
       if: ${{ inputs.package-manager == 'yarn' }}
+      shell: bash
       run: corepack enable
 
     - name: Install dependencies
@@ -46,4 +48,5 @@ runs:
         PACKAGE_MANAGER: ${{ inputs.package-manager }}
 
     - name: Run biome checks
+      shell: bash
       run: yarn biome
