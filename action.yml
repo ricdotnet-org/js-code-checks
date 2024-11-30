@@ -22,79 +22,45 @@ inputs:
 runs:
   using: "composite"
 
-  linting-and-style-checks:
-    if: ${{ inputs.linting == true }}
-    name: Linting and code style checks
-    runs-on: ubuntu-latest
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+        #   token: ${{ secrets.GITHUB_TOKEN }}
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-          #   token: ${{ secrets.GITHUB_TOKEN }}
-  
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ inputs.node-version }}
-  
-      - name: Prepare yarn
-        if: ${{ inputs.package-manager == 'yarn' }}
-        shell: bash
-        run: corepack enable
-  
-      - name: Install dependencies
-        shell: bash
-        run: |
-          if [[ $PACKAGE_MANAGER == "yarn" ]]; then
-            yarn install
-          else
-            npm install
-          fi
-        env:
-          PACKAGE_MANAGER: ${{ inputs.package-manager }}
-  
-      - name: Run biome checks
-        shell: bash
-        run: yarn biome
+    - name: Setup node
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
 
-  tests:
-    if: ${{ inputs.tests == true }}
-    name: Tests
-    runs-on: ubuntu-latest
+    - name: Prepare yarn
+      if: ${{ inputs.package-manager == 'yarn' }}
+      shell: bash
+      run: corepack enable
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-          #   token: ${{ secrets.GITHUB_TOKEN }}
-  
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ inputs.node-version }}
-  
-      - name: Prepare yarn
-        if: ${{ inputs.package-manager == 'yarn' }}
-        shell: bash
-        run: corepack enable
-  
-      - name: Install dependencies
-        shell: bash
-        run: |
-          if [[ $PACKAGE_MANAGER == "yarn" ]]; then
-            yarn install
-          else
-            npm install
-          fi
-        env:
-          PACKAGE_MANAGER: ${{ inputs.package-manager }}
+    - name: Install dependencies
+      shell: bash
+      run: |
+        if [[ $PACKAGE_MANAGER == "yarn" ]]; then
+          yarn install
+        else
+          npm install
+        fi
+      env:
+        PACKAGE_MANAGER: ${{ inputs.package-manager }}
 
-      - name: Run tests
-        shell: bash
-        run: |
-          if [[ $PACKAGE_MANAGER == "yarn" ]]; then
-            yarn test
-          else
-            npm run test
-          fi
-        env:
-          PACKAGE_MANAGER: ${{ inputs.package-manager }}
+    - name: Run biome checks
+      if: ${{ inputs.linting == true }}
+      shell: bash
+      run: yarn biome
+
+    - name: Run tests
+      if: ${{ inputs.test == true }}
+      shell: bash
+      run: |
+        if [[ $PACKAGE_MANAGER == "yarn" ]]; then
+          yarn test
+        else
+          npm run test
+        fi
+      env:
+        PACKAGE_MANAGER: ${{ inputs.package-manager }}
