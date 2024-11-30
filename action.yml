@@ -14,11 +14,7 @@ inputs:
     descriprion: 'Can only be npm or yarn'
     required: false
     default: 'yarn'
-  node-version:
-    descriprion: 'Node version as node<version>'
-    required: false
-    default: 'node22'
 
 runs:
-  using: ${{ inputs.node-version }}
+  using: node22
   main: 'index.js'
