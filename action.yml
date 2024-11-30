@@ -54,7 +54,7 @@ runs:
       run: yarn biome
 
     - name: Run tests
-      if: ${{ inputs.test == 'true' }}
+      if: ${{ inputs.tests == 'true' }}
       shell: bash
       run: |
         if [[ $PACKAGE_MANAGER == "yarn" ]]; then
