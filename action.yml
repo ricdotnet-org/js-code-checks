@@ -21,14 +21,14 @@ inputs:
 
 runs:
   using: "composite"
-  name: "Run code checks and tests"
-  if: ${{ inputs.linting == true }} || ${{ inputs.tests == true }}
+  # name: "Run code checks and tests"
+  # if: ${{ inputs.linting == true }} || ${{ inputs.tests == true }}
 
   steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+        # with:
+        #   token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Prepare yarn
       if: ${{ inputs.package-manager == "yarn" }}
