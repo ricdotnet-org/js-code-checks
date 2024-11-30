@@ -31,10 +31,11 @@ runs:
         #   token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Prepare yarn
-      if: ${{ inputs.package-manager == "yarn" }}
+      if: ${{ inputs.package-manager == 'yarn' }}
       run: corepack enable
 
     - name: Install dependencies
+      shell: bash
       run: |
         if [[ $PACKAGE_MANAGER == "yarn" ]]; then
           yarn install
