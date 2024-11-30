@@ -1,6 +1,6 @@
-const core = require('@actions/core');
-const github = require('@actions/github');
-const { execSync } = require('child_process')
+import * as core from '@actions/core';
+import * as github from'@actions/github';
+import { execSync } from 'child_process';
 
 const linting = core.getInput('linting');
 const tests = core.getInput('tests');

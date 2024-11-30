@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "esbuild src/index.js --bundle --platform=node --outfile=dist/index.js"
   },
   "keywords": [
     "code checks",
@@ -17,5 +17,8 @@
   "dependencies": {
     "@actions/core": "^1.11.1",
     "@actions/github": "^6.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0"
   }
 }
