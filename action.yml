@@ -5,11 +5,11 @@ inputs:
   linting:
     description: 'Should run linting'
     required: false
-    default: false
+    default: 'false'
   tests:
     description: 'Should run tests'
     required: false
-    default: false
+    default: 'false'
   package-manager:
     descriprion: 'Can only be npm or yarn'
     required: false
@@ -49,12 +49,12 @@ runs:
         PACKAGE_MANAGER: ${{ inputs.package-manager }}
 
     - name: Run biome checks
-      if: ${{ inputs.linting == true }}
+      if: ${{ inputs.linting == 'true' }}
       shell: bash
       run: yarn biome
 
     - name: Run tests
-      if: ${{ inputs.test == true }}
+      if: ${{ inputs.test == 'true' }}
       shell: bash
       run: |
         if [[ $PACKAGE_MANAGER == "yarn" ]]; then
