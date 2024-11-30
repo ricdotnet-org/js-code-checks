@@ -1,0 +1,48 @@
+name: 'Run JS Code Checks'
+description: 'Runs eslint and tests if available'
+
+inputs:
+  linting:
+    description: 'Should run linting'
+    required: false
+    default: false
+  tests:
+    description: 'Should run tests'
+    required: false
+    default: false
+  package-manager:
+    descriprion: 'Can only be npm or yarn'
+    required: false
+    default: 'yarn'
+  node-version:
+    descriprion: 'Node version'
+    required: false
+    default: '22'
+
+runs:
+  using: "composite"
+  name: "Run code checks and tests"
+  if: ${{ inputs.linting == true }} || ${{ inputs.tests == true }}
+
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Prepare yarn
+      if: ${{ inputs.package-manager == "yarn" }}
+      run: corepack enable
+
+    - name: Install dependencies
+      run: |
+        if [[ $PACKAGE_MANAGER == "yarn" ]]; then
+          yarn install
+        else
+          npm install
+        fi
+      env:
+        PACKAGE_MANAGER: ${{ inputs.package-manager }}
+
+    - name: Run biome checks
+      run: yarn biome
