@@ -27,8 +27,8 @@ runs:
   steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-        with:
-          node-version: ${{ inputs.node-version }}
+      with:
+        node-version: ${{ inputs.node-version }}
         #   token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Prepare yarn
